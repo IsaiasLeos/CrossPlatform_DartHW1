@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:quiz/QuizParser.dart' as quiz;
 
 Future<void> main(List<String> arguments) async {
@@ -6,13 +7,12 @@ Future<void> main(List<String> arguments) async {
   //Make sure it isn't null
   if (jsonMsg != null) {
     //decode the json string
-    Map<String, dynamic> quiz = json.decode(jsonMsg) as Map;
+    var quiz = json.decode(jsonMsg);
     //Iterate through the questions inside the quiz
-
-    for (var i = 0; i < 10; i++) {
-      var questionDesc = quiz['quiz']['question'][i];
+    var fixedQuiz = quiz['quiz']['question'] as List;
+    fixedQuiz.forEach((element) {
       //print the type of question i.e. multiple choice vs fill in
-      switch (questionDesc['type']) {
+      switch (element['type']) {
         case 1:
           print('Multiple Choice: ');
           break;
@@ -22,9 +22,9 @@ Future<void> main(List<String> arguments) async {
         default:
       }
       //print the question itself
-      print('Question: ' + questionDesc['stem']);
+      print('Question: ' + element['stem']);
       //print the answer of the question
-      print('Answer: ' + questionDesc['answer'].toString());
-    }
+      print('Answer: ' + element['answer'].toString());
+    });
   }
 }
