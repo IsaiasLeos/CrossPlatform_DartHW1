@@ -18,13 +18,11 @@ Future<void> parseQuestions(var jsonMsg) async {
     fixedQuiz.forEach((element) {
       question_repo.questions.add(element['stem']);
       question_repo.answers.add(element['answer']);
-      // if (element['option'] != null) {
-      //   var optionsList = element['option'] as List;
-      //   optionsList.forEach((element) {
-      //     question_repo.options.add(element);
-      //     print(element);
-      //   });
-      // }
+      if (element['option'] == null) {
+        question_repo.options.add(0);
+      } else {
+        question_repo.options.add(element['option']);
+      }
     });
   }
 }
