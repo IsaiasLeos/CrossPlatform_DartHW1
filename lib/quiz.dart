@@ -22,24 +22,50 @@ void manageQuestions() {
   var response;
   var count = 0;
   quiz_questions.forEach((element) {
-    print(element);
+    stdout.write(element);
     if (quiz_options.elementAt(count) != 0) {
-      print(quiz_options.elementAt(count));
+      stdout.write('\n');
+      stdout.write(quiz_options.elementAt(count));
     }
     response = stdin.readLineSync();
+    if (response == 'true') {
+      response = 1;
+    } else if (response == 'false') {
+      response = 2;
+    }
     quiz_responses.add(response);
     count++;
   });
   printInfo();
+  print('Total Grade: ');
+  print(calculateGrade());
+}
+
+int calculateGrade() {
+  var total = 0;
+  var questionCount = 0;
+  quiz_responses.forEach((answer) {
+    if (answer == quiz_answers.elementAt(questionCount)) {
+      total++;
+    }
+    if (quiz_answers.elementAt(questionCount) is List) {
+      if ((quiz_answers.elementAt(questionCount) as List).contains(answer)) {
+        total++;
+      }
+    }
+    questionCount++;
+  });
+  return total;
 }
 
 void printInfo() {
-  print(
-      '#########################################################################');
+  stdout.write(
+      '\n#########################################################################\n');
   for (var i = 0; i < totalCount; i++) {
     print(quiz_questions.elementAt(i));
     print(quiz_answers.elementAt(i));
-    print(quiz_options.elementAt(i));
     print(quiz_responses.elementAt(i));
   }
+  stdout.write(
+      '\n#########################################################################\n');
 }
