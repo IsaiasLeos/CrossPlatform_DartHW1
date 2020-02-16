@@ -1,9 +1,30 @@
 import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:quiz/Questions.dart' as question_repo;
 
-/// Obtains the quiz from CHEON's website given the integer provided.
-Future<String> getQuestion(int quizNumber) async {
+Future<String> getQuiz(int quizNumber) async {
   var url = 'http://www.cs.utep.edu/cheon/cs4381/homework/quiz?quiz=quiz0'
       '$quizNumber';
   var response = await http.get(url);
-  return response.body; //returns only the body
+  return response.body;
+}
+
+Future<void> parseQuestions(var jsonMsg) async {
+  var decodedMsg = await jsonMsg;
+  if (decodedMsg != null) {
+    var quiz = json.decode(decodedMsg);
+    question_repo.quizName = quiz['quiz']['name'];
+    var fixedQuiz = quiz['quiz']['question'] as List;
+    fixedQuiz.forEach((element) {
+      question_repo.questions.add(element['stem']);
+      question_repo.answers.add(element['answer']);
+      // if (element['option'] != null) {
+      //   var optionsList = element['option'] as List;
+      //   optionsList.forEach((element) {
+      //     question_repo.options.add(element);
+      //     print(element);
+      //   });
+      // }
+    });
+  }
 }
