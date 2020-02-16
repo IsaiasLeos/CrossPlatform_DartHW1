@@ -2,13 +2,16 @@ import 'dart:io';
 
 class QuizController {
   var question_repo;
-
   QuizController.question_repo(this.question_repo);
+
+  ///holds the questions, answers, responses, and options
+  ///depends on the user input for how many questions they want
   List<String> quiz_questions = <String>[];
   List<dynamic> quiz_answers = <dynamic>[];
   List<dynamic> quiz_responses = <dynamic>[];
   List<dynamic> quiz_options = <dynamic>[];
 
+  ///total amount of questions
   var totalCount = 0;
 
   ///Assign the number of questions that were given by the user.
@@ -30,7 +33,10 @@ class QuizController {
       stdout.write(element);
       if (quiz_options.elementAt(count) != 0) {
         stdout.write('\n');
-        stdout.write(quiz_options.elementAt(count));
+        var options = quiz_options.elementAt(count) as List;
+        options.forEach((element) {
+          stdout.write('\n\n' + element + '\n');
+        });
       }
       stdout.write('\nAnswer: ');
       response = stdin.readLineSync();
