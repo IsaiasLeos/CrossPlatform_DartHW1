@@ -1,16 +1,18 @@
-import 'package:http/http.dart' as http;
 import 'dart:convert';
+
+import 'package:http/http.dart' as http;
+
 import 'Questions.dart';
 
 class QuizParser {
-  QuizParser() {}
+  QuizParser();
 
   ///Makes connection with Cheon's server to obtain a quiz in JSON format.
   Future<String> getQuiz(int quizNumber) async {
     var url = 'http://www.cs.utep.edu/cheon/cs4381/homework/quiz?quiz=quiz0'
         '$quizNumber';
     var response = await http.get(url);
-    return response.body;//returns the body of the msg
+    return response.body; //returns the body of the msg
   }
 
   ///Parses the questions and assigns them into a list to then compare to
@@ -32,7 +34,7 @@ class QuizParser {
           //assigns 0 because no options are available
           question_repo.options.add(0);
         } else {
-          //assigns questions if available
+          //assigns options if available
           question_repo.options.add(element['option']);
         }
       });

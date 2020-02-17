@@ -35,7 +35,7 @@ class QuizController {
         stdout.write('\n');
         var options = quiz_options.elementAt(count) as List;
         options.forEach((element) {
-          stdout.write('\n\n' + element + '\n');
+          stdout.write('\n' + element + '\n');
         });
       }
       stdout.write('\nAnswer: ');
@@ -48,6 +48,7 @@ class QuizController {
       quiz_responses.add(response);
       count++;
     });
+    printInfo();
   }
 
   ///Calculates which questions are wrong and which are correct and
@@ -56,7 +57,10 @@ class QuizController {
     var total = 0;
     var questionCount = 0;
     quiz_responses.forEach((answer) {
-      if (answer == quiz_answers.elementAt(questionCount)) {
+      if (answer == '3' || answer == '4' || answer == '2' || answer == '1') {
+        answer = int.parse(answer);
+      }
+      if (quiz_answers.contains(answer)) {
         total++;
       }
       if (quiz_answers.elementAt(questionCount) is List) {
@@ -77,7 +81,7 @@ class QuizController {
     for (var i = 0; i < totalCount; i++) {
       print(quiz_questions.elementAt(i));
       print(quiz_answers.elementAt(i));
-      print(quiz_responses.elementAt(i));
+      print(quiz_responses.elementAt(i).runtimeType);
     }
     stdout.write(
         '\n#########################################################################\n');
